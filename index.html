@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شيء صغير يفرحكِ</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@600;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1b2d;--amber:#ffb347;--teal:#7fd6c8;--cream:#fff4e0;--brown:#8a3b00}
+*{box-sizing:border-box;margin:0}
+body{background:var(--navy);color:var(--cream);font-family:'Tajawal',sans-serif;line-height:1.9;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;overflow-x:hidden}
+button{font:inherit;cursor:pointer;color:inherit;background:none;border:0}
+#sky{position:fixed;inset:0;background:linear-gradient(#ff9a5a,#ffd08a 55%,#fff1cf);opacity:0;transition:opacity 5s ease;z-index:0}
+#sun{position:fixed;left:50%;bottom:-260px;width:240px;height:240px;margin-left:-120px;border-radius:50%;background:radial-gradient(circle,#fff6c8,#ffb347 65%,#ff8a3d);box-shadow:0 0 90px 40px #ffb34799;transition:transform 5s ease;z-index:0}
+body.rise #sky{opacity:1}
+body.rise #sun{transform:translateY(-430px)}
+.card{position:relative;z-index:2;width:100%;max-width:520px;text-align:center}
+.screen{display:none}.screen.on{display:block;animation:in .5s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1,h2{font-family:'Cairo',sans-serif;font-weight:800;color:var(--amber);line-height:1.6}
+h1{font-size:clamp(2rem,8vw,3rem)}
+h2{font-size:1.6rem;margin-bottom:14px}
+p{font-size:1.15rem;margin-bottom:20px}
+.b{display:inline-block;text-decoration:none;font-size:1.1rem;font-weight:500;color:var(--amber);border:1px solid var(--amber);padding:10px 28px;border-radius:40px;transition:background .25s,color .25s;margin:5px}
+.b:hover,.b:focus-visible{background:var(--amber);color:var(--navy);outline:none}
+.b.fill{background:var(--amber);color:var(--navy)}
+.b:disabled{opacity:.35;pointer-events:none}
+.emos{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:8px 0}
+.emo{font-size:2.5rem;width:68px;height:68px;border-radius:50%;background:#ffffff10;border:2px solid transparent;transition:.2s}
+.emo:hover{transform:scale(1.12)}
+.emo.sel{border-color:var(--amber);background:#ffb34730;animation:bop .4s}
+@keyframes bop{50%{transform:scale(1.35) rotate(-8deg)}}
+.react{min-height:3.4em;color:var(--teal);font-size:1.1rem;margin:10px 0}
+.pool{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:18px 0}
+.bub{width:100px;height:100px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffffff40,#7fd6c840);border:1px solid #7fd6c8aa;font-size:.95rem;line-height:1.3;padding:8px;animation:flt 3s ease-in-out infinite}
+.bub:nth-child(2n){animation-delay:-1s}.bub:nth-child(3n){animation-delay:-2s}
+@keyframes flt{50%{transform:translateY(-10px)}}
+.tc{display:block;width:100%;margin:10px 0;padding:16px;border-radius:16px;background:#ffffff10;border:1px solid #ffffff30;font-size:1.1rem;transition:.3s}
+.tc .t{font-family:'Cairo',sans-serif;font-weight:700;color:var(--amber);font-size:1.25rem}
+.tc .x{display:none;margin-top:6px}
+.tc.open{background:#ffb3471f;border-color:var(--amber)}
+.tc.open .x{display:block;animation:in .5s}
+.tc.open .h{display:none}
+.h{font-size:.9rem;opacity:.7}
+.pair{display:flex;justify-content:center;align-items:center;margin:10px 0}
+#yes{background:var(--amber);color:var(--navy)}
+.panel{background:#fff4e0ea;color:#3b2200;border-radius:20px;padding:22px 18px;box-shadow:0 10px 40px #0004}
+.panel h2{color:var(--brown)}
+.panel p{margin-bottom:16px}
+.panel .b{color:var(--brown);border-color:var(--brown)}
+.panel .b:hover{background:var(--brown);color:var(--cream)}
+.panel .b.fill{background:var(--brown);color:var(--cream)}
+.verse{font-family:'Amiri',serif;font-size:1.5rem;line-height:2.2;color:var(--brown);border-top:1px solid #8a3b0040;border-bottom:1px solid #8a3b0040;padding:12px 0;margin:6px 0 4px}
+.verse span{display:block;opacity:0;transform:translateY(8px);transition:1.4s}
+.verse span.show{opacity:1;transform:none}
+.by{font-size:.95rem;opacity:.7;margin-bottom:18px}
+.mute{position:fixed;top:12px;left:12px;font-size:1.4rem;z-index:60;opacity:.8}
+.fl,.rn{position:fixed;pointer-events:none}
+.fl{font-size:1.6rem;z-index:30}
+.rn{top:-60px;z-index:15}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:30px}
+.dots i{width:24px;height:4px;border-radius:4px;background:#ffffff30;transition:.4s}
+.dots i.on{background:var(--amber)}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="sun"></div>
+<button class="mute" id="mute" aria-label="الصوت">🔊</button>
+
+<div class="card">
+  <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <div class="screen on" id="s0">
+    <h1 id="hi"></h1>
+    <p>صنعت لكِ شيئاً صغيراً ليبعدكِ قليلاً عن أجواء المعهد وكلام الناس. أولاً، كيف حالكِ الآن؟</p>
+    <div class="emos" id="emos"></div>
+    <p class="react" id="r0"></p>
+    <button class="b fill" id="n0" disabled>متابعة</button>
+  </div>
+
+  <div class="screen" id="s1">
+    <h2>لنُفرغ الحزن</h2>
+    <p>اضغطي على كل فقاعة لتنفجر وتختفي.</p>
+    <div class="pool" id="pool"></div>
+    <p class="react" id="r1"></p>
+    <button class="b fill" id="n1" disabled>متابعة</button>
+  </div>
+
+  <div class="screen" id="s2">
+    <h2>شيء يجب أن تعرفيه</h2>
+    <p>اضغطي على كل بطاقة.</p>
+    <div id="cards"></div>
+    <button class="b fill" id="n2" disabled>متابعة</button>
+  </div>
+
+  <div class="screen" id="ask">
+    <h2>سؤال أخير</h2>
+    <p style="font-size:1.4rem">هل ما زلتِ حزينة؟</p>
+    <div class="pair"><button class="b" id="yes">نعم</button><button class="b fill" id="no">لا</button></div>
+    <p class="react" id="r3"></p>
+  </div>
+
+  <div class="screen" id="fin">
+    <div class="panel">
+      <h2>الرسوب وقفة… وليس نهاية</h2>
+      <p id="msg"></p>
+      <div class="verse"><span id="v1"></span><span id="v2"></span></div>
+      <div class="by">— المتنبي</div>
+      <a class="b" id="song" target="_blank" rel="noopener">🎵 أغنية لكِ</a>
+      <button class="b fill" id="reply">ردّي على <span id="fromName"></span> 💬</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ====== عدّل هنا فقط ====== */
+const CFG = {
+  friend: "خاله زهراء",                 // اسمها، مثال: زينب
+  from: "حسين",
+  whatsapp: "9647880100807",        // رقمك بالصيغة الدولية بدون + وبدون صفر
+  song: "https://youtube.com/shorts/8TKmOf_VBmo?si=XOPgctM1jBY6unFW",
+  message: "المزعج ليس الرسوب نفسه، بل كلام أناس لا يعرفون كم تعبتِ. لا تدعي كلامهم يسرق فرحتكِ أو يقلل من قيمتكِ. أنتِ أكبر من هذه الأجواء، وأنا موجود و اي شي تحتاجي لا تفكرين و كولي كبل.",
+  verse: ["وَإِذا أَتَتكَ مَذَمَّتي مِن ناقِصٍ", "فَهِيَ الشَهادَةُ لي بِأَنِّيَ كامِلُ"]
+};
+const MOODS = [
+  ["😢","من حقكِ أن تحزني، واليوم مسموح لكِ. هذه الصفحة جاءت لتخفف عنكِ قليلاً."],
+  ["😔","أعرف أن أجواء المعهد وكلام الناس ثقيلة. لنمضِ معاً خطوة خطوة."],
+  ["😐","لا بأس، لا يجب أن تكوني سعيدة الآن. تابعي معي."],
+  ["🙂","جميل! لنجعلها أفضل."],
+  ["😄","رائع! هذا ما كنت أتمناه!"]
+];
+const WORRIES = ["جماعه المعهد","الي ينيجون","الضغط","الرسوب"];
+const CARDS = [
+  ["كلامهم يصف حالهم لا قيمتكِ","من ينشغل برسوب غيره غالباً ليس لديه ما يعمل عليه. هم لا يعرفون كم تعبتِ وما الذي مررتِ به."],
+  ["الرسوب سنة لا هوية","ورقة الدرجات لا تحدد من تكونين. تبقين أنتِ بذكائكِ وأخلاقكِ وقوتكِ، والسنة تمر."],
+  ["المعهد مرحلة وتنتهي","أغلب من فيه سيمرون في حياتكِ ولن يبقوا. الذي يبقى هو أنتِ وما تبنينه لنفسكِ."]
+];
+const YES_MSGS = ["حقاً؟ حاولي مرة أخرى 😄","الزر هرب! 😂","لا أظن أن هذا صحيح 😏","ربما ضغطتِ الزر الخطأ 🙈","أمسكيه إن استطعتِ! 🏃‍♀️"];
+/* ========================= */
+
+const $ = id => document.getElementById(id);
+let mood = "—";
+
+/* أصوات */
+let AC = null, muted = false;
+function initAudio(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC && AC.state==="suspended") AC.resume(); }
+function tone(f,d=.12,type="sine",v=.15,to=null,when=0){
+  if(!AC||muted) return;
+  const t=AC.currentTime+when,o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,t); if(to)o.frequency.exponentialRampToValueAtTime(to,t+d);
+  g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02);
+}
+const sfx = {
+  click:()=>tone(520,.07,"triangle",.12,780),
+  pop:()=>{tone(300,.1,"sine",.25,900);tone(1200,.06,"triangle",.1,null,.05)},
+  ok:()=>[523,659,784].forEach((f,i)=>tone(f,.18,"triangle",.12,null,i*.09)),
+  win:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,.3,"triangle",.13,null,i*.12)),
+  chime:()=>tone(880,.3,"sine",.1,1320),
+  dodge:()=>tone(700,.12,"sine",.12,200)
+};
+$("mute").onclick=()=>{muted=!muted;$("mute").textContent=muted?"🔇":"🔊"};
+
+function floatEmoji(e,from,n=5){
+  const r=from.getBoundingClientRect();
+  for(let i=0;i<n;i++){
+    const s=document.createElement("span");s.className="fl";s.textContent=e;
+    s.style.left=(r.left+r.width/2)+"px";s.style.top=(r.top+r.height/2)+"px";
+    document.body.appendChild(s);
+    const dx=(Math.random()-.5)*160;
+    s.animate([{transform:"translate(-50%,0) scale(.6)",opacity:1},{transform:`translate(calc(-50% + ${dx}px),-${80+Math.random()*90}px) scale(1.2)`,opacity:0}],{duration:900+Math.random()*500,easing:"ease-out"}).onfinish=()=>s.remove();
+  }
+}
+function show(id,i){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
+  $(id).classList.add("on");
+  document.querySelectorAll("#dots i").forEach((d,k)=>d.classList.toggle("on",k<=i));
+}
+
+/* 1: الحالة */
+$("hi").textContent = "أهلاً " + CFG.friend;
+MOODS.forEach(([e,t])=>{
+  const b=document.createElement("button"); b.className="emo"; b.textContent=e; b.setAttribute("aria-label",t);
+  b.onclick=()=>{
+    initAudio();
+    document.querySelectorAll(".emo").forEach(x=>x.classList.remove("sel")); void b.offsetWidth; b.classList.add("sel");
+    mood=e; $("r0").textContent=t; $("n0").disabled=false; sfx.pop(); floatEmoji(e,b,5);
+  };
+  $("emos").append(b);
+});
+$("n0").onclick=()=>{sfx.click();show("s1",1)};
+
+/* 2: الفقاعات */
+let left=WORRIES.length;
+WORRIES.forEach(w=>{
+  const b=document.createElement("button"); b.className="bub"; b.textContent=w;
+  b.onclick=()=>{
+    sfx.pop(); floatEmoji("✨",b,6);
+    b.animate([{transform:"scale(1)",opacity:1},{transform:"scale(1.5)",opacity:0}],{duration:250}).onfinish=()=>b.remove();
+    left--;
+    if(left>0) $("r1").textContent="بقي "+left;
+    else { $("r1").textContent="رأيتِ؟ خفّ الحمل 🌤️"; $("n1").disabled=false; sfx.ok(); }
+  };
+  $("pool").append(b);
+});
+$("n1").onclick=()=>{sfx.click();show("s2",2)};
+
+/* 3: البطاقات */
+let opened=0;
+CARDS.forEach(([t,x])=>{
+  const c=document.createElement("button"); c.className="tc";
+  c.innerHTML=`<div class="t">${t}</div><div class="h">اضغطي هنا</div><div class="x">${x}</div>`;
+  c.onclick=()=>{
+    if(c.classList.contains("open")) return;
+    c.classList.add("open"); sfx.chime(); floatEmoji("💛",c,4); opened++;
+    if(opened===CARDS.length) $("n2").disabled=false;
+  };
+  $("cards").append(c);
+});
+$("n2").onclick=()=>{sfx.click();show("ask",3)};
+
+/* 4: هل ما زلتِ حزينة؟ (زر نعم يهرب) */
+const yes=$("yes"), no=$("no");
+let spacer=null;
+yes.onclick=()=>{
+  sfx.dodge();
+  const w=yes.offsetWidth, h=yes.offsetHeight;
+  if(!spacer){
+    spacer=document.createElement("span");
+    spacer.style.cssText=`display:inline-block;width:${w+10}px;height:${h}px`;
+    yes.after(spacer);
+    yes.style.position="fixed"; yes.style.margin="0"; yes.style.zIndex=50;
+  }
+  const W=innerWidth,H=innerHeight,nr=no.getBoundingClientRect();
+  let x,y,tries=0;
+  do{ x=8+Math.random()*(W-w-16); y=8+Math.random()*(H-h-16); tries++; }
+  while(tries<30 && x<nr.right+12 && x+w>nr.left-12 && y<nr.bottom+12 && y+h>nr.top-12);
+  yes.style.transition="left .25s ease, top .25s ease";
+  yes.style.left=x+"px"; yes.style.top=y+"px";
+  $("r3").textContent=YES_MSGS[Math.floor(Math.random()*YES_MSGS.length)];
+};
+no.onclick=()=>{ sfx.ok(); finale(); };
+
+/* 5: النهاية */
+function finale(){
+  yes.style.display="none";
+  show("fin",4);
+  $("msg").textContent=CFG.message; $("fromName").textContent=CFG.from;
+  $("v1").textContent=CFG.verse[0]; $("v2").textContent=CFG.verse[1];
+  $("song").href=CFG.song;
+  document.body.classList.add("rise");
+  sfx.win();
+  setTimeout(()=>$("v1").classList.add("show"),1200);
+  setTimeout(()=>{$("v2").classList.add("show");sfx.chime()},2800);
+  setTimeout(()=>confetti(7000),800);
+}
+function confetti(ms){
+  const E=["🌟","✨","🎉","💛","🌸","🎊"],end=performance.now()+ms;
+  const id=setInterval(()=>{
+    if(performance.now()>end) return clearInterval(id);
+    const s=document.createElement("span");s.className="rn";s.textContent=E[Math.floor(Math.random()*E.length)];
+    s.style.left=Math.random()*100+"vw";s.style.fontSize=(20+Math.random()*26)+"px";
+    document.body.appendChild(s);
+    s.animate([{transform:"translateY(0) rotate(0)"},{transform:`translateY(115vh) rotate(${(Math.random()-.5)*360}deg)`}],{duration:2500+Math.random()*2500,easing:"linear"}).onfinish=()=>s.remove();
+  },90);
+}
+$("reply").onclick=()=>{
+  const t="وصلتني رسالتك 💛\nمزاجي الآن: "+mood;
+  window.open("https://wa.me/"+CFG.whatsapp+"?text="+encodeURIComponent(t),"_blank");
+  confetti(2500);
+};
+</script>
+</body>
+</html>
